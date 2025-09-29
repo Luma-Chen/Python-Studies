@@ -1,34 +1,32 @@
 import requests
-import json
 
-BASE_URL = "https://api.github.com/search/repositories"
-QUERY = "topic:data-science language:python forks:>8" 
-GITHUB_TOKEN = "SEU_TOKEN" 
-headers = {
+BASE_URL= "https://api.github.com/search/repositories"
+QUERY= f"topic:data-science language:python forks:>=8 archived:false" 
+GITHUB_TOKEN= "SEU_TOKEN"
+headers= {
     "Authorization": f"token {GITHUB_TOKEN}",
     "Accept": "application/vnd.github.v3+json"
 }
 
 def buscar_repositorios_data_science():
-    params = {
+    params= {
         "q": QUERY,
         "sort": "forks",
         "order": "desc",
         "per_page": 100
     }
-
     print(f"Fazendo busca por: {QUERY}")
 
     if GITHUB_TOKEN == "SEU_TOKEN":
-        response = requests.get(BASE_URL, params=params)
+        response= requests.get(BASE_URL, params=params)
     else:
-        response = requests.get(BASE_URL, params=params, headers=headers)
+        response= requests.get(BASE_URL, params=params, headers=headers)
     
     if response.status_code == 200:
-        dados_json = response.json()
+        dados_json= response.json()
         print("--- Resultado JSON (Apenas os primeiros 6) ---")
         for i, repo in enumerate(dados_json.get('items', [])):
-            if i >= 5:
+            if i >= 6:
                 break
             print(f"URL: {repo['html_url']}")
             print(f"Estrelas: {repo['stargazers_count']}")
